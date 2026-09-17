@@ -6,6 +6,7 @@ import PositionsPanel from "@/components/trader/PositionsPanel";
 import CandidatePanel from "@/components/trader/CandidatePanel";
 import AuditPanel from "@/components/trader/AuditPanel";
 import ControlPanel from "@/components/trader/ControlPanel";
+import PerformanceDashboard from "@/components/trader/PerformanceDashboard";
 
 export default function Terminal() {
   const [config, setConfig] = useState(null);
@@ -83,6 +84,7 @@ export default function Terminal() {
             {error}
           </p>
         )}
+        <PerformanceDashboard positions={positions} />
         <div className="grid gap-5 lg:grid-cols-3">
           <div className="space-y-5 lg:col-span-2">
             <PositionsPanel positions={positions} onClose={closePosition} closingId={closingId} />

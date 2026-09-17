@@ -9,6 +9,7 @@ export const DEFAULT_CONFIG = {
   max_open_positions: 5,
   min_liquidity_usd: 25000,
   min_buyers_1h: 40,
+  min_capital_per_participant_usd: 15,
   max_structure_risk: 55,
   max_slippage_bps: 600,
   atr_stop_multiple: 1.8,
@@ -55,6 +56,17 @@ export function atrProxyPct(s) {
   return Math.max(2, Math.min(Math.max(m5, h1), 45));
 }
 
+// Average USD committed per participation event in the last hour. Separates a
+// swarm of dust trades from real money. Returns null when there is nothing to
+// divide by — "no participation data" must not collapse into "tiny trades".
+export function capitalPerParticipant(s) {
+  const volume = s.volume_1h_usd;
+  if (!volume || volume <= 0) return null;
+  const events = (s.buys_1h || 0) + (s.sells_1h || 0);
+  if (events <= 0) return null;
+  return Math.round((volume / events) * 100) / 100;
+}
+
 export function evaluate(snapshot, rawConfig) {
   const cfg = withDefaults(rawConfig);
   const s = snapshot;
@@ -90,6 +102,21 @@ export function evaluate(snapshot, rawConfig) {
     flow > 0,
     s.buys_1h >= cfg.min_buyers_1h && buyShare >= 0.52,
     `${s.buys_1h} buys / ${s.sells_1h} sells (${Math.round(buyShare * 100)}% buy side)`
+  );
+
+  // C2 — capital behind the breadth. FAILS CLOSED on missing participation
+  // data: the original fail-open here meant any provider without transaction
+  // counts switched the bot-farm filter off entirely while the logs still
+  // showed the gate as alive. Unknown is not healthy.
+  const cpp = capitalPerParticipant(s);
+  push(
+    "C2_COMMITMENT",
+    "Capital per participant",
+    cpp !== null,
+    cpp !== null && cpp >= cfg.min_capital_per_participant_usd,
+    cpp !== null
+      ? `$${cpp} avg vs $${cfg.min_capital_per_participant_usd} floor`
+      : "participation data unavailable"
   );
 
   // D — real turnover, not a dead book

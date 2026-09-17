@@ -40,6 +40,11 @@
       "type": "number",
       "default": 40
     },
+    "min_capital_per_participant_usd": {
+      "type": "number",
+      "default": 15,
+      "description": "Floor on average USD per participation event. Fails closed when unmeasured."
+    },
     "max_structure_risk": {
       "type": "number",
       "default": 55
