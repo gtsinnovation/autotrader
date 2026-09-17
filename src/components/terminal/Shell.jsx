@@ -10,7 +10,8 @@ const NAV = [
   ["/execution-history", "Execution History"],
   ["/performance-analytics", "Performance"],
   ["/watchlist", "Watchlist"],
-  ["/system-health", "System Health"]
+  ["/system-health", "System Health"],
+  ["/documentation", "Docs"]
 ];
 
 export default function Shell() {

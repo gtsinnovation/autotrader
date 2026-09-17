@@ -21,6 +21,7 @@ import ExecutionHistory from '@/pages/ExecutionHistory';
 import PerformanceAnalytics from '@/pages/PerformanceAnalytics';
 import Watchlist from '@/pages/Watchlist';
 import SystemHealth from '@/pages/SystemHealth';
+import Documentation from '@/pages/Documentation';
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -64,6 +65,7 @@ const AuthenticatedApp = () => {
           <Route path="/performance-analytics" element={<PerformanceAnalytics />} />
           <Route path="/watchlist" element={<Watchlist />} />
           <Route path="/system-health" element={<SystemHealth />} />
+          <Route path="/documentation" element={<Documentation />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />
