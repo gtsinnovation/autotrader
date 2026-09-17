@@ -41,6 +41,8 @@ module.exports = {
   				DEFAULT: 'hsl(var(--destructive))',
   				foreground: 'hsl(var(--destructive-foreground))'
   			},
+  			warning: 'hsl(var(--warning))',
+  			// weights below are extended in fontWeight
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
@@ -61,6 +63,12 @@ module.exports = {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			}
+  		},
+  		fontWeight: {
+  			400: '400',
+  			500: '500',
+  			600: '600',
+  			700: '700'
   		},
   		fontFamily: {
   			heading: ['var(--font-heading)'],
