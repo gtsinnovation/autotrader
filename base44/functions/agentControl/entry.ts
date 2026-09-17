@@ -8,6 +8,7 @@ const NUMERIC_KEYS = [
   "max_open_positions",
   "min_liquidity_usd",
   "min_buyers_1h",
+  "min_capital_per_participant_usd",
   "max_structure_risk",
   "max_slippage_bps",
   "atr_stop_multiple",
