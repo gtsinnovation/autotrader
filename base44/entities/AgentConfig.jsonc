@@ -70,7 +70,7 @@
     },
     "max_pair_age_hours": {
       "type": "number",
-      "default": 72
+      "default": 336
     },
     "min_pair_age_minutes": {
       "type": "number",
