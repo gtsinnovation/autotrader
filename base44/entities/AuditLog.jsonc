@@ -1,0 +1,34 @@
+{
+  "name": "AuditLog",
+  "type": "object",
+  "properties": {
+    "action": {
+      "type": "string",
+      "description": "e.g. SCAN_TICK, ENTRY_APPROVED, ENTRY_BLOCKED, PARTIAL_EXIT, EXIT, CONFIG_CHANGE, KILL_SWITCH"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "info",
+        "warn",
+        "error"
+      ],
+      "default": "info"
+    },
+    "token_address": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "detail": {
+      "type": "string"
+    },
+    "amount_usd": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "action"
+  ]
+}

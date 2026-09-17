@@ -1,0 +1,110 @@
+{
+  "name": "Position",
+  "type": "object",
+  "properties": {
+    "token_address": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "pair_address": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "paper",
+        "live"
+      ],
+      "default": "paper"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "closed"
+      ],
+      "default": "open"
+    },
+    "entry_price": {
+      "type": "number"
+    },
+    "allocated_usd": {
+      "type": "number"
+    },
+    "remaining_pct": {
+      "type": "number",
+      "default": 100
+    },
+    "stop_price": {
+      "type": "number"
+    },
+    "target_price": {
+      "type": "number"
+    },
+    "peak_price": {
+      "type": "number"
+    },
+    "last_price": {
+      "type": "number"
+    },
+    "trailing_armed": {
+      "type": "boolean",
+      "default": false
+    },
+    "mev_protected": {
+      "type": "boolean",
+      "default": true
+    },
+    "slippage_ceiling_bps": {
+      "type": "number"
+    },
+    "conviction": {
+      "type": "number"
+    },
+    "realized_pnl_usd": {
+      "type": "number",
+      "default": 0
+    },
+    "unrealized_pnl_usd": {
+      "type": "number",
+      "default": 0
+    },
+    "exit_reason": {
+      "type": "string"
+    },
+    "closed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "fills": {
+      "type": "array",
+      "description": "Partial and final exits",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "pct": {
+            "type": "number"
+          },
+          "pnl_usd": {
+            "type": "number"
+          },
+          "at": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "token_address",
+    "entry_price"
+  ]
+}

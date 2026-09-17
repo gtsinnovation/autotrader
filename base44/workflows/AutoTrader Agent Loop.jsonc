@@ -1,0 +1,57 @@
+{
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "autotrader_agent_loop",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "scan_market": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "scanMarket"
+          },
+          "then": "manage_exits",
+          "x-base44": {
+            "title": "Scan & gate market",
+            "description": "Discovery + gate pipeline"
+          }
+        }
+      },
+      {
+        "manage_exits": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "manageExits"
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Manage exits",
+            "description": "ATR stop, partials, trailing"
+          }
+        }
+      }
+    ]
+  },
+  "name": "AutoTrader Agent Loop",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "*/5 * * * *",
+      "one_time_date": null,
+      "timezone": "America/New_York",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "description": "Every 5 minutes: discover and gate Solana candidates, then manage exits on all open positions."
+}

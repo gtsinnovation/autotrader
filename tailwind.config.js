@@ -42,6 +42,7 @@ module.exports = {
   				foreground: 'hsl(var(--destructive-foreground))'
   			},
   			warning: 'hsl(var(--warning))',
+  			profit: 'hsl(var(--profit))',
   			// weights below are extended in fontWeight
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
