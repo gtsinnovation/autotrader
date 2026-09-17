@@ -1,30 +1,13 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
-import ProtectedRoute from '@/components/ProtectedRoute';
-import AppShell from '@/components/shell/AppShell';
-import Login from '@/pages/Login';
-import Register from '@/pages/Register';
-import ForgotPassword from '@/pages/ForgotPassword';
-import ResetPassword from '@/pages/ResetPassword';
 import Home from '@/pages/Home';
 import Terminal from '@/pages/Terminal';
-import Positions from '@/pages/Positions';
-import MarketScanner from '@/pages/MarketScanner';
-import Watchlist from '@/pages/Watchlist';
-import Forensics from '@/pages/Forensics';
-import Performance from '@/pages/Performance';
-import QuickActions from '@/pages/QuickActions';
-import StrategyEditor from '@/pages/StrategyEditor';
-import RiskParameters from '@/pages/RiskParameters';
-import Settings from '@/pages/Settings';
-import AuditLogs from '@/pages/AuditLogs';
-import Admin from '@/pages/Admin';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -52,27 +35,8 @@ const AuthenticatedApp = () => {
   // Render the main app
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-      <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
-        <Route element={<AppShell />}>
-          <Route path="/" element={<Terminal />} />
-          <Route path="/positions" element={<Positions />} />
-          <Route path="/market-scanner" element={<MarketScanner />} />
-          <Route path="/watchlist" element={<Watchlist />} />
-          <Route path="/forensics" element={<Forensics />} />
-          <Route path="/performance" element={<Performance />} />
-          <Route path="/quick-actions" element={<QuickActions />} />
-          <Route path="/strategy-editor" element={<StrategyEditor />} />
-          <Route path="/risk-parameters" element={<RiskParameters />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/audit-logs" element={<AuditLogs />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/roadmap" element={<Home />} />
-        </Route>
-      </Route>
+      <Route path="/" element={<Terminal />} />
+      <Route path="/roadmap" element={<Home />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
