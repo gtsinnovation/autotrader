@@ -18,9 +18,26 @@
     "mode": {
       "type": "string",
       "enum": [
-        "PAPER"
+        "PAPER",
+        "LIVE"
       ],
-      "default": "PAPER"
+      "default": "PAPER",
+      "description": "PAPER simulates fills against live prices. LIVE signs and broadcasts real USDC swaps."
+    },
+    "live_max_position_usd": {
+      "type": "number",
+      "default": 5,
+      "description": "Hard per-trade ceiling for live orders, additionally capped in code at $250."
+    },
+    "live_max_orders_per_day": {
+      "type": "number",
+      "default": 3,
+      "description": "Maximum live BUY orders per UTC day. Exits are never capped."
+    },
+    "live_max_slippage_percent": {
+      "type": "number",
+      "default": 2,
+      "description": "Entry is abandoned if the re-quote just before signing exceeds this impact."
     },
     "total_capital_usd": {
       "type": "number",

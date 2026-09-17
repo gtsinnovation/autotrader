@@ -3,6 +3,9 @@
 export const DEFAULT_CONFIG = {
   run_status: "PAUSED_MANUAL",
   mode: "PAPER",
+  live_max_position_usd: 5,
+  live_max_orders_per_day: 3,
+  live_max_slippage_percent: 2,
   total_capital_usd: 1000,
   max_position_usd: 50,
   max_open_positions: 5,
@@ -31,7 +34,13 @@ export async function getConfig(base44) {
   const rows = await base44.asServiceRole.entities.AgentConfig.list("-created_date", 1);
   // Defaults are merged underneath so a threshold added after the row was
   // created never reads as undefined inside a gate.
-  if (rows.length) return { ...DEFAULT_CONFIG, ...stripEmpty(rows[0]) };
+  if (rows.length) {
+    const row = { ...DEFAULT_CONFIG, ...stripEmpty(rows[0]) };
+    // Mode is compared exactly before real funds move, so case is normalized
+    // here rather than trusted from whatever the row happens to hold.
+    row.mode = String(row.mode).toUpperCase() === "LIVE" ? "LIVE" : "PAPER";
+    return row;
+  }
   return await base44.asServiceRole.entities.AgentConfig.create(DEFAULT_CONFIG);
 }
 

@@ -1,0 +1,59 @@
+{
+  "name": "LiveOrder",
+  "type": "object",
+  "properties": {
+    "side": {
+      "type": "string",
+      "enum": [
+        "BUY",
+        "SELL"
+      ]
+    },
+    "token_address": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "position_id": {
+      "type": "string"
+    },
+    "size_usd": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "QUOTING",
+        "ABORTED",
+        "SUBMITTED",
+        "CONFIRMED",
+        "FAILED"
+      ],
+      "default": "QUOTING",
+      "description": "ABORTED means a rail refused it before signing; FAILED means it was signed or sent and did not land."
+    },
+    "tx_signature": {
+      "type": "string"
+    },
+    "quoted_impact_percent": {
+      "type": "number"
+    },
+    "filled_token_amount": {
+      "type": "number"
+    },
+    "filled_usdc_amount": {
+      "type": "number"
+    },
+    "fill_price_usd": {
+      "type": "number"
+    },
+    "abort_reason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "side",
+    "token_address"
+  ]
+}

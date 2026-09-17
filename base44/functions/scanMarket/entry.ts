@@ -2,6 +2,7 @@ import { createClientFromRequest } from "npm:@base44/sdk@0.8.44";
 import { discoverSnapshots, fetchPriceImpactPercent } from "../../shared/marketData.js";
 import { runGates, roundTripCostPercent } from "../../shared/gates.js";
 import { getConfig, assertOperator } from "../../shared/agent.js";
+import { checkEntryRails, executeLiveBuy } from "../../shared/liveExecution.js";
 
 const COOLDOWN_MINUTES = 60; // one evaluation per token per hour
 const MAX_IMPACT_PROBES = 10; // stay polite to Jupiter's keyless endpoint
@@ -68,28 +69,51 @@ export default async function (req: Request): Promise<Response> {
         else if (slots <= 0) skipReason = "max open positions reached";
         else if (capital < cfg.max_position_usd) skipReason = "capital allocation exhausted";
         else {
-          const size = Number(cfg.max_position_usd);
-          const entry = snap.price_usd;
-          await svc.Position.create({
-            token_address: snap.token_address,
-            symbol: snap.symbol,
-            pair_address: snap.pair_address,
-            size_usd: size,
-            entry_price: entry,
-            last_price: entry,
-            peak_price: entry,
-            take_profit_price: entry * (1 + cfg.take_profit_percent / 100),
-            stop_loss_price: entry * (1 - cfg.stop_loss_percent / 100),
-            trailing_stop_percent: cfg.trailing_stop_percent,
-            entry_score: evaluated.score,
-            assumed_slippage_percent: snap.price_impact_percent,
-            status: "OPEN",
-            opened_at: new Date().toISOString()
-          });
-          slots -= 1;
-          capital -= size;
-          opened += 1;
-          openedPosition = true;
+          let size = Number(cfg.max_position_usd);
+          let entry = snap.price_usd;
+          let live = null;
+
+          // In LIVE mode nothing is recorded until real funds have actually
+          // moved: the fill decides the entry price and the size.
+          if (cfg.mode === "LIVE") {
+            const rails = await checkEntryRails(svc, cfg, size);
+            if (!rails.ok) skipReason = `live rail: ${rails.reason}`;
+            else {
+              live = await executeLiveBuy(svc, cfg, snap, rails.size_usd);
+              if (!live.ok) skipReason = `live execution: ${live.reason}`;
+              else {
+                size = live.usdc_spent;
+                entry = live.fill_price_usd;
+              }
+            }
+          }
+
+          if (!skipReason) {
+            await svc.Position.create({
+              token_address: snap.token_address,
+              symbol: snap.symbol,
+              pair_address: snap.pair_address,
+              size_usd: size,
+              entry_price: entry,
+              last_price: entry,
+              peak_price: entry,
+              take_profit_price: entry * (1 + cfg.take_profit_percent / 100),
+              stop_loss_price: entry * (1 - cfg.stop_loss_percent / 100),
+              trailing_stop_percent: cfg.trailing_stop_percent,
+              entry_score: evaluated.score,
+              assumed_slippage_percent: live ? live.realized_slippage_percent : snap.price_impact_percent,
+              is_live: Boolean(live),
+              token_amount_raw: live ? live.token_amount_raw : null,
+              token_decimals: live ? live.token_decimals : null,
+              entry_tx_signature: live ? live.tx_signature : null,
+              status: "OPEN",
+              opened_at: new Date().toISOString()
+            });
+            slots -= 1;
+            capital -= size;
+            opened += 1;
+            openedPosition = true;
+          }
         }
       }
 

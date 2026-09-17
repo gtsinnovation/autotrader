@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import ThresholdForm from "@/components/terminal/ThresholdForm";
 import { useAgentConfig, useAgentControl } from "@/hooks/useAgent";
 import { ShieldAlert } from "lucide-react";
+import LiveExecutionPanel from "@/components/terminal/LiveExecutionPanel";
 
 const FIELDS = [
   ["total_capital_usd", "Total capital $", "Maximum wallet exposure the agent may deploy."],
@@ -62,6 +63,8 @@ export default function RiskSettings() {
           saveLabel="SAVE RISK LIMITS"
         />
       </div>
+
+      <LiveExecutionPanel />
     </div>
   );
 }

@@ -38,6 +38,27 @@
     "assumed_slippage_percent": {
       "type": "number"
     },
+    "is_live": {
+      "type": "boolean",
+      "default": false,
+      "description": "True when real funds were swapped on-chain for this position."
+    },
+    "token_amount_raw": {
+      "type": "string",
+      "description": "Base-unit token amount actually received, stored as a string to avoid float loss."
+    },
+    "token_decimals": {
+      "type": "number"
+    },
+    "entry_tx_signature": {
+      "type": "string"
+    },
+    "exit_tx_signature": {
+      "type": "string"
+    },
+    "exit_error": {
+      "type": "string"
+    },
     "status": {
       "type": "string",
       "enum": [
