@@ -56,10 +56,10 @@ export default function Terminal() {
   const control = (body) => base44.functions.invoke("agentControl", body);
 
   return (
-    <div className="dark min-h-screen bg-background text-foreground">
-      <div className="max-w-6xl mx-auto p-4 space-y-4">
+    <div className="space-y-4">
+      <div>
         <div className="flex items-baseline gap-3">
-          <h1 className="font-mono text-lg tracking-widest">SOLANA AUTOTRADER</h1>
+          <h1 className="font-mono text-base tracking-widest text-gold">LIVE TERMINAL</h1>
           <span className="font-mono text-[10px] text-muted-foreground">keyless · read-only data · paper execution</span>
         </div>
 

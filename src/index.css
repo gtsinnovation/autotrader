@@ -29,6 +29,9 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --gold: 43 74% 45%;
+    --profit: 152 55% 35%;
+    --loss: 0 72% 48%;
     --font-heading: ui-sans-serif, system-ui, sans-serif;
     --font-body: ui-sans-serif, system-ui, sans-serif;
     --font-display: ui-sans-serif, system-ui, sans-serif;
@@ -44,25 +47,28 @@
   }
 
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --background: 0 0% 3%;
+    --foreground: 45 25% 94%;
+    --card: 0 0% 6%;
+    --card-foreground: 45 25% 94%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 45 25% 94%;
+    --primary: 43 74% 52%;
+    --primary-foreground: 0 0% 6%;
+    --secondary: 45 12% 12%;
+    --secondary-foreground: 45 25% 94%;
+    --muted: 45 10% 12%;
+    --muted-foreground: 45 12% 62%;
+    --accent: 152 55% 40%;
+    --accent-foreground: 0 0% 6%;
+    --destructive: 0 72% 48%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
+    --border: 45 15% 14%;
+    --input: 45 15% 16%;
+    --ring: 43 74% 52%;
+    --gold: 43 74% 52%;
+    --profit: 152 62% 45%;
+    --loss: 0 72% 55%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;

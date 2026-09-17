@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 
-const pnlTone = (v) => (v >= 0 ? "text-emerald-400" : "text-red-400");
+const pnlTone = (v) => (v >= 0 ? "text-profit" : "text-loss");
 
 export default function PositionsTable({ positions, busy, onClose }) {
   if (!positions.length) {
@@ -48,7 +48,7 @@ export default function PositionsTable({ positions, busy, onClose }) {
                       variant="ghost"
                       disabled={busy}
                       onClick={() => onClose(p.id)}
-                      className="h-6 font-mono text-[10px] text-red-400 hover:text-red-300"
+                      className="h-6 font-mono text-[10px] text-loss hover:text-loss/80"
                     >
                       CLOSE
                     </Button>

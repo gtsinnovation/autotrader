@@ -12,6 +12,15 @@ import Register from '@/pages/Register';
 import ForgotPassword from '@/pages/ForgotPassword';
 import ResetPassword from '@/pages/ResetPassword';
 import Terminal from '@/pages/Terminal';
+import Shell from '@/components/terminal/Shell';
+import StrategyEditor from '@/pages/StrategyEditor';
+import RiskSettings from '@/pages/RiskSettings';
+import ExecutionLogs from '@/pages/ExecutionLogs';
+import SignalInspector from '@/pages/SignalInspector';
+import ExecutionHistory from '@/pages/ExecutionHistory';
+import PerformanceAnalytics from '@/pages/PerformanceAnalytics';
+import Watchlist from '@/pages/Watchlist';
+import SystemHealth from '@/pages/SystemHealth';
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -45,7 +54,17 @@ const AuthenticatedApp = () => {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
-        <Route path="/" element={<Terminal />} />
+        <Route element={<Shell />}>
+          <Route path="/" element={<Terminal />} />
+          <Route path="/strategy-editor" element={<StrategyEditor />} />
+          <Route path="/risk-settings" element={<RiskSettings />} />
+          <Route path="/execution-logs" element={<ExecutionLogs />} />
+          <Route path="/signal-inspector" element={<SignalInspector />} />
+          <Route path="/execution-history" element={<ExecutionHistory />} />
+          <Route path="/performance-analytics" element={<PerformanceAnalytics />} />
+          <Route path="/watchlist" element={<Watchlist />} />
+          <Route path="/system-health" element={<SystemHealth />} />
+        </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

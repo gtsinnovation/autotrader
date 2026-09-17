@@ -17,7 +17,7 @@ export default function AgentBar({ config, stats, busy, onResume, onPause, onSca
     <div className="border border-border rounded-lg bg-card">
       <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-b border-border">
         <div className="flex items-center gap-2">
-          <Activity className={`w-4 h-4 ${running ? "text-emerald-400" : "text-amber-400"}`} />
+          <Activity className={`w-4 h-4 ${running ? "text-profit" : "text-gold"}`} />
           <span className="font-mono text-sm">
             {running ? "AGENT RUNNING" : config?.run_status?.replace("_", " ") || "OFFLINE"}
           </span>
@@ -25,7 +25,7 @@ export default function AgentBar({ config, stats, busy, onResume, onPause, onSca
             {config?.mode || "PAPER"}
           </span>
           {config?.pause_reason && (
-            <span className="font-mono text-[10px] text-amber-400">{config.pause_reason}</span>
+            <span className="font-mono text-[10px] text-gold">{config.pause_reason}</span>
           )}
         </div>
         <div className="flex items-center gap-2">
@@ -51,7 +51,7 @@ export default function AgentBar({ config, stats, busy, onResume, onPause, onSca
         <Stat
           label="Realized P&L"
           value={`${pnl >= 0 ? "+" : ""}$${pnl.toFixed(2)}`}
-          tone={pnl >= 0 ? "text-emerald-400" : "text-red-400"}
+          tone={pnl >= 0 ? "text-profit" : "text-loss"}
         />
         <Stat label="Win Rate" value={`${stats?.winRate ?? 0}%`} />
         <Stat

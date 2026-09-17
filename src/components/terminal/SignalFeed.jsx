@@ -6,9 +6,9 @@ const Gate = ({ gate }) => (
     className={`px-1.5 py-0.5 rounded text-[10px] ${
       gate.passed
         ? gate.measured
-          ? "bg-emerald-500/10 text-emerald-400"
-          : "bg-sky-500/10 text-sky-400"
-        : "bg-red-500/10 text-red-400"
+          ? "bg-profit/10 text-profit"
+          : "bg-gold/10 text-gold"
+        : "bg-loss/10 text-loss"
     }`}
   >
     {gate.name}
@@ -28,17 +28,17 @@ export default function SignalFeed({ signals }) {
             <div className="flex items-center gap-2 min-w-0">
               <span
                 className={`px-1.5 py-0.5 rounded text-[10px] ${
-                  s.verdict === "APPROVED" ? "bg-emerald-500/15 text-emerald-400" : "bg-secondary text-muted-foreground"
+                  s.verdict === "APPROVED" ? "bg-profit/15 text-profit" : "bg-secondary text-muted-foreground"
                 }`}
               >
                 {s.verdict}
               </span>
               <span className="truncate">{s.symbol || s.token_address.slice(0, 8)}</span>
-              {s.opened_position && <span className="text-[10px] text-emerald-400">ENTERED</span>}
+              {s.opened_position && <span className="text-[10px] text-profit">ENTERED</span>}
             </div>
             <div className="flex items-center gap-3 shrink-0 text-muted-foreground">
               <span>${Math.round(s.liquidity_usd || 0).toLocaleString()} liq</span>
-              <span className={Number(s.price_change_h1) >= 0 ? "text-emerald-400" : "text-red-400"}>
+              <span                 className={Number(s.price_change_h1) >= 0 ? "text-profit" : "text-loss"}>
                 {Number(s.price_change_h1 || 0).toFixed(1)}% 1h
               </span>
               <span className="text-foreground">{s.score ?? 0}</span>
