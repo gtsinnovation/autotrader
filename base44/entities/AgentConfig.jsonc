@@ -1,0 +1,121 @@
+{
+  "name": "AgentConfig",
+  "type": "object",
+  "properties": {
+    "run_status": {
+      "type": "string",
+      "enum": [
+        "RUNNING",
+        "PAUSED_MANUAL",
+        "PAUSED_KILL_SWITCH"
+      ],
+      "default": "PAUSED_MANUAL",
+      "description": "Only RUNNING allows new entries. Open positions always keep resolving."
+    },
+    "pause_reason": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "PAPER"
+      ],
+      "default": "PAPER"
+    },
+    "total_capital_usd": {
+      "type": "number",
+      "default": 1000
+    },
+    "max_position_usd": {
+      "type": "number",
+      "default": 50
+    },
+    "max_open_positions": {
+      "type": "number",
+      "default": 5
+    },
+    "min_liquidity_usd": {
+      "type": "number",
+      "default": 25000
+    },
+    "min_traders_h1": {
+      "type": "number",
+      "default": 120
+    },
+    "max_avg_trade_usd": {
+      "type": "number",
+      "default": 400
+    },
+    "max_top_holders_percent": {
+      "type": "number",
+      "default": 25
+    },
+    "min_holders": {
+      "type": "number",
+      "default": 300,
+      "description": "Concentration proxy floor used when top-holder share is unreported."
+    },
+    "min_liq_to_fdv_percent": {
+      "type": "number",
+      "default": 2,
+      "description": "Concentration proxy: liquidity as a share of FDV."
+    },
+    "max_dev_balance_percent": {
+      "type": "number",
+      "default": 5
+    },
+    "min_organic_volume_percent": {
+      "type": "number",
+      "default": 3
+    },
+    "max_pair_age_hours": {
+      "type": "number",
+      "default": 72
+    },
+    "min_pair_age_minutes": {
+      "type": "number",
+      "default": 15
+    },
+    "max_price_impact_percent": {
+      "type": "number",
+      "default": 3
+    },
+    "min_momentum_h1_percent": {
+      "type": "number",
+      "default": 3
+    },
+    "max_momentum_h1_percent": {
+      "type": "number",
+      "default": 300
+    },
+    "take_profit_percent": {
+      "type": "number",
+      "default": 40
+    },
+    "stop_loss_percent": {
+      "type": "number",
+      "default": 18
+    },
+    "trailing_stop_percent": {
+      "type": "number",
+      "default": 15
+    },
+    "max_loss_usd": {
+      "type": "number",
+      "default": 150
+    },
+    "max_consecutive_losses": {
+      "type": "number",
+      "default": 5
+    },
+    "last_scan_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_sync_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": []
+}
