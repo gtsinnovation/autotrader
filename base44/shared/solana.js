@@ -4,14 +4,20 @@
 
 import { secrets } from "base44:runtime";
 
-const PUBLIC_RPC = "https://api.mainnet-beta.solana.com";
+// api.mainnet-beta.solana.com blocks this platform's egress IPs (403), so the
+// keyless default is a public endpoint that answers from here.
+const PUBLIC_RPC = "https://solana-rpc.publicnode.com";
 
+// Only a full http(s) endpoint is usable; anything else (e.g. a bare API key)
+// is ignored in favour of the public endpoint rather than building a bad URL.
 export function rpcUrl() {
+  let value = "";
   try {
-    return secrets.get("SOLANA_RPC_URL") || PUBLIC_RPC;
+    value = (secrets.get("SOLANA_RPC_URL") || "").trim();
   } catch (_err) {
     return PUBLIC_RPC;
   }
+  return /^https?:\/\//i.test(value) ? value : PUBLIC_RPC;
 }
 
 export async function rpc(method, params) {
