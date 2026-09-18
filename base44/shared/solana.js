@@ -20,10 +20,20 @@ export function rpcUrl() {
   return /^https?:\/\//i.test(value) ? value : PUBLIC_RPC;
 }
 
+// Triton authenticates with an x-token header rather than a URL path segment.
+function rpcHeaders() {
+  const headers = { "Content-Type": "application/json" };
+  try {
+    const token = (secrets.get("SOLANA_RPC_X_TOKEN") || "").trim();
+    if (token) headers["x-token"] = token;
+  } catch (_err) { /* header is optional */ }
+  return headers;
+}
+
 export async function rpc(method, params) {
   const res = await fetch(rpcUrl(), {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: rpcHeaders(),
     body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params })
   });
   if (!res.ok) throw new Error(`RPC ${method} -> ${res.status}`);
