@@ -19,11 +19,11 @@ export default function Shell() {
 
   return (
     <div className="dark min-h-screen bg-background text-foreground">
-      <header className="border-b border-border bg-card">
+      <header className="border-b border-gold/30 bg-card">
         <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center gap-x-6 gap-y-2">
-          <Link to="/" className="font-mono text-sm tracking-widest">
-            <span className="text-gold">SOL</span>
-            <span className="text-profit">AGENT</span>
+          <Link to="/" className="font-mono text-base font-bold tracking-widest">
+            <span className="text-gold">AUTO</span>
+            <span className="text-profit">TRADER</span>
           </Link>
           <nav className="flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-wider">
             {NAV.map(([to, label]) => (
