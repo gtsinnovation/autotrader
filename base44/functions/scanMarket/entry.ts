@@ -132,11 +132,17 @@ export default async function (req: Request): Promise<Response> {
 
     await base44.asServiceRole.entities.AgentConfig.update(cfg.id, { last_scan_at: new Date().toISOString() });
 
-    // Retention: signals are scan logs, not trades. Keep a week for the UI and
-    // discard the rest so the table never outgrows its indexes.
-    const retentionCutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    // Retention: signals are scan logs. Roll anything older than 24h, then
+    // cap the table at 40 rows so it stays lean and fast.
+    const SIGNAL_CEILING = 40;
     try {
-      await svc.Signal.deleteMany({ created_date: { $lt: retentionCutoff } });
+      const ageCutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+      await svc.Signal.deleteMany({ created_date: { $lt: ageCutoff } });
+      const recent = await svc.Signal.list("-created_date", SIGNAL_CEILING + 100);
+      if (recent.length > SIGNAL_CEILING) {
+        const staleIds = recent.slice(SIGNAL_CEILING).map((s) => s.id);
+        await svc.Signal.deleteMany({ id: { $in: staleIds } });
+      }
     } catch (_err) {
       // Non-fatal: a failed prune must never block a scan.
     }
