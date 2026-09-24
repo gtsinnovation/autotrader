@@ -132,6 +132,15 @@ export default async function (req: Request): Promise<Response> {
 
     await base44.asServiceRole.entities.AgentConfig.update(cfg.id, { last_scan_at: new Date().toISOString() });
 
+    // Retention: signals are scan logs, not trades. Keep a week for the UI and
+    // discard the rest so the table never outgrows its indexes.
+    const retentionCutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    try {
+      await svc.Signal.deleteMany({ created_date: { $lt: retentionCutoff } });
+    } catch (_err) {
+      // Non-fatal: a failed prune must never block a scan.
+    }
+
     return Response.json({
       candidates: snapshots.length,
       evaluated: results.length,

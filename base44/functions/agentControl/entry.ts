@@ -57,10 +57,17 @@ export default async function (req: Request): Promise<Response> {
 
     if (action === "update_config") {
       const patch = {};
+      // These two arms the kill switch in syncPositions; zeroing them would
+      // silently disable the only loss brake. They must stay positive.
+      // max_loss_usd / max_consecutive_losses arm the kill switch; zeroing them
+      // would silently disable the only loss brake, so they must stay positive.
+      const MUST_BE_POSITIVE = new Set(["max_loss_usd", "max_consecutive_losses"]);
       for (const key of ALLOWED_CONFIG_FIELDS) {
         if (body?.config && body.config[key] !== undefined && body.config[key] !== null) {
           const value = Number(body.config[key]);
-          if (Number.isFinite(value) && value >= 0) patch[key] = value;
+          if (!Number.isFinite(value) || value < 0) continue;
+          if (MUST_BE_POSITIVE.has(key) && value === 0) continue;
+          patch[key] = value;
         }
       }
       if (!Object.keys(patch).length) return Response.json({ error: "no valid fields" }, { status: 400 });
