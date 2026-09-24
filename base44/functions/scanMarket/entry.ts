@@ -134,7 +134,7 @@ export default async function (req: Request): Promise<Response> {
 
     // Retention: signals are scan logs. Roll anything older than 24h, then
     // cap the table at 40 rows so it stays lean and fast.
-    const SIGNAL_CEILING = 40;
+    const SIGNAL_CEILING = 200;
     try {
       const ageCutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
       await svc.Signal.deleteMany({ created_date: { $lt: ageCutoff } });
