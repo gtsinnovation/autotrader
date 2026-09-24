@@ -3,9 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Play, Pause, RefreshCw, Activity } from "lucide-react";
 import StatCard from "./StatCard";
 
-export default function AgentBar({ config, stats, busy, onResume, onPause, onScan }) {
+export default function AgentBar({ config, stats, busy, onResume, onPause, onScan, walletAddress }) {
   const running = config?.run_status === "RUNNING";
   const pnl = stats?.netPnlUsd || 0;
+  const shortAddr = walletAddress
+    ? `${walletAddress.slice(0, 6)}…${walletAddress.slice(-4)}`
+    : "—";
 
   return (
     <div className="space-y-3">
@@ -17,6 +20,9 @@ export default function AgentBar({ config, stats, busy, onResume, onPause, onSca
           </span>
           <span className="font-mono text-[10px] px-2 py-0.5 rounded border border-gold/40 text-gold">
             {config?.mode || "PAPER"}
+          </span>
+          <span className="font-mono text-[10px] px-2 py-0.5 rounded border border-border text-muted-foreground" title={walletAddress || ""}>
+            {shortAddr}
           </span>
           {config?.pause_reason && (
             <span className="font-mono text-[10px] text-gold">{config.pause_reason}</span>

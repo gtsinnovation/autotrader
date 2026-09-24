@@ -17,12 +17,18 @@ export default function Terminal() {
     queryKey: ["terminal"],
     refetchInterval: 15000,
     queryFn: async () => {
-      const [configs, positions, signals] = await Promise.all([
+      const [configs, positions, signals, walletRes] = await Promise.all([
         base44.entities.AgentConfig.list("-created_date", 1),
         base44.entities.Position.list("-created_date", 100),
-        base44.entities.Signal.list("-created_date", 60)
+        base44.entities.Signal.list("-created_date", 60),
+        base44.functions.invoke("liveWalletStatus", {}).then((r) => r.data).catch(() => null)
       ]);
-      return { config: configs[0] || null, positions, signals };
+      return {
+        config: configs[0] || null,
+        positions,
+        signals,
+        walletAddress: walletRes?.wallet_address || null
+      };
     }
   });
 
@@ -70,6 +76,7 @@ export default function Terminal() {
       <AgentBar
         config={config}
         stats={stats}
+        walletAddress={data?.walletAddress}
         busy={busy}
         onResume={() => run("Agent started", () => control({ action: "resume" }))}
         onPause={() => run("Agent paused", () => control({ action: "pause" }))}
